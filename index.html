@@ -10,12 +10,19 @@
 <script src="topbar.js" defer></script>
 <style>
 :root {
-  --text-primary: #FAFAFA;
-  --text-secondary: #B8B6B0;
-  --text-tertiary: #76746E;
+  --bg: #070B15;
+  --bg-card: rgba(12, 18, 30, 0.92);
+  --bg-panel: rgba(17, 25, 44, 0.95);
+  --text-primary: #F8F8F2;
+  --text-secondary: #B7BBC5;
+  --text-tertiary: #7A8397;
+  --accent: #4DD4FF;
+  --accent-soft: #1E9ABF;
   --success: #6BE3A4;
   --warning: #F2C063;
-  --danger: #FF6B6B;
+  --danger: #EA5A5A;
+  --gold: #D3A35D;
+  --border: rgba(255,255,255,0.08);
   --font: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
 }
@@ -23,7 +30,7 @@
 * { box-sizing: border-box; }
 html, body {
   margin: 0; padding: 0;
-  background: #050506;
+  background: radial-gradient(circle at top left, rgba(22, 40, 72, 0.34), transparent 25%), #05080F;
   color: var(--text-secondary);
   font-family: var(--font);
   -webkit-font-smoothing: antialiased;
@@ -42,30 +49,305 @@ body {
 body::before {
   content: '';
   position: fixed; inset: 0;
-  background:
-    radial-gradient(circle at 82% 14%, rgba(224, 118, 88, 0.16), transparent 45%),
-    radial-gradient(circle at 18% 90%, rgba(180, 180, 200, 0.06), transparent 50%);
-  filter: blur(40px);
+  background: radial-gradient(circle at 82% 14%, rgba(35, 119, 172, 0.14), transparent 45%),
+              radial-gradient(circle at 18% 90%, rgba(116, 92, 183, 0.08), transparent 50%);
+  filter: blur(42px);
   pointer-events: none;
   z-index: -2;
-  animation: drift 36s ease-in-out infinite alternate;
 }
 body::after {
   content: '';
   position: fixed; inset: 0;
-  background-image: radial-gradient(rgba(255,255,255,0.014) 1px, transparent 1px);
-  background-size: 3px 3px;
+  background-image: radial-gradient(rgba(255,255,255,0.01) 1px, transparent 1px);
+  background-size: 4px 4px;
   pointer-events: none;
   z-index: -1;
 }
+
 @keyframes drift {
   0%   { transform: translate3d(0,0,0); }
-  100% { transform: translate3d(-22px, 14px, 0); }
+  100% { transform: translate3d(-18px, 12px, 0); }
 }
 
 .page {
   max-width: 1100px;
   margin: 0 auto;
+}
+
+.hero-panel,
+.dashboard-grid,
+.section {
+  margin-bottom: 22px;
+}
+
+.hero-panel {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr;
+  gap: 22px;
+  align-items: start;
+}
+.hero-panel .hero-copy {
+  display: grid;
+  gap: 18px;
+}
+.hero-panel .card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  padding: 26px;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.25);
+}
+.hero-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--accent);
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.dash-title {
+  margin: 0;
+  font-size: 46px;
+  line-height: 1.02;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  color: var(--text-primary);
+  background: none;
+  -webkit-text-fill-color: unset;
+}
+.hero-copy p {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 16px;
+  line-height: 1.65;
+  max-width: 680px;
+}
+.hero-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+.hero-chip {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 16px;
+  padding: 14px 16px;
+}
+.hero-chip span { display: block; color: var(--text-tertiary); font-size: 11px; text-transform: uppercase; letter-spacing: 0.14em; }
+.hero-chip strong { display: block; margin-top: 8px; color: var(--text-primary); font-size: 20px; font-weight: 700; }
+
+.mode-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.mode-card .gm-eyebrow { margin: 0; }
+.gm-select {
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.04);
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 14px;
+  outline: none;
+}
+.mode-note {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.focus-grid,
+.support-grid {
+  display: grid;
+  gap: 18px;
+}
+.focus-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.support-grid { grid-template-columns: 1.4fr 1fr; }
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  padding: 22px;
+  box-shadow: 0 20px 45px rgba(0,0,0,0.18);
+}
+.focus-card,
+.recovery-card,
+.checkin-card,
+.wins-card {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.focus-card-header,
+.small-label,
+.card-title {
+  color: var(--text-secondary);
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.focus-card strong,
+.card-title strong {
+  display: block;
+  margin-top: 8px;
+  color: var(--text-primary);
+  font-size: 18px;
+  line-height: 1.2;
+}
+.focus-card p,
+.card-copy,
+.wins-note {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 13px;
+  line-height: 1.7;
+}
+.focus-input,
+.field-input,
+.field-select {
+  width: 100%;
+  border-radius: 14px;
+  padding: 14px 16px;
+  border: 1px solid rgba(255,255,255,0.10);
+  background: rgba(255,255,255,0.05);
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 14px;
+  outline: none;
+}
+.field-input::placeholder,
+.field-select::placeholder { color: var(--text-tertiary); }
+.field-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+.checkbox-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--text-primary);
+  font-size: 14px;
+}
+.checkbox-row input {
+  width: 18px; height: 18px;
+  accent-color: var(--success);
+}
+.recovery-values {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.recovery-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 14px 16px;
+  border-radius: 16px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+.recovery-pill strong { color: var(--text-primary); }
+.recovery-status {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+.wins-card ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+.win-item {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 16px;
+  padding: 14px 16px;
+  color: var(--text-primary);
+  font-size: 14px;
+}
+.win-item::before {
+  content: '✓';
+  margin-right: 10px;
+  color: var(--success);
+  font-weight: 700;
+}
+.wins-empty {
+  color: var(--text-tertiary);
+  font-size: 13px;
+  margin: 0;
+}
+.goal-category-title {
+  margin: 18px 0 8px;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+}
+.goal-category-title span {
+  float: right;
+  background: rgba(255,255,255,0.05);
+  color: var(--text-secondary);
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.goal-input-wrap.gm-input-wrap {
+  display: grid;
+  grid-template-columns: minmax(140px, 180px) 1fr auto auto;
+  gap: 10px;
+  align-items: center;
+  margin-top: 18px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+.gm-select {
+  min-width: 140px;
+}
+.gm-input, .field-select { padding: 14px 16px; }
+.gm-add, .gm-polish, .gm-push-btn {
+  border-radius: 16px;
+  padding: 13px 16px;
+}
+.gm-add {
+  background: linear-gradient(180deg, #4DD4FF 0%, #1E9ABF 100%);
+  color: #04131C;
+  box-shadow: 0 12px 24px rgba(19, 115, 161, 0.25);
+}
+.gm-polish {
+  background: rgba(255,255,255,0.06);
+  border-color: rgba(255,255,255,0.12);
+}
+.gm-push-btn {
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.04);
+  color: var(--text-secondary);
+}
+.gm-push-btn:hover { background: rgba(255,255,255,0.06); }
+@media (max-width: 980px) {
+  .hero-panel,
+  .focus-grid,
+  .support-grid,
+  .goal-input-wrap.gm-input-wrap { grid-template-columns: 1fr; }
+  .goal-input-wrap.gm-input-wrap { align-items: stretch; }
+}
+@media (max-width: 580px) {
+  .hero-row { grid-template-columns: 1fr; }
+  .hero-panel { gap: 14px; }
+  .dash-title { font-size: 34px; }
 }
 
 /* ===== Component 1: page title ===== */
@@ -606,7 +888,40 @@ body::after {
 <body>
 <div class="page">
 
-  <h1 class="dash-title">Dani's Dashboard</h1>
+  <div class="hero-panel">
+    <div class="hero-copy card">
+      <div class="hero-label">Dani HQ</div>
+      <h1 class="dash-title" id="dashboardTitle">Morning, Dani</h1>
+      <p id="dashboardSubtitle">Right, what matters today?</p>
+      <div class="hero-row">
+        <div class="hero-chip">
+          <span>Date</span>
+          <strong id="heroDate">—</strong>
+        </div>
+        <div class="hero-chip">
+          <span>Streak</span>
+          <strong id="heroStreak">0 days</strong>
+        </div>
+        <div class="hero-chip">
+          <span>Signal</span>
+          <strong id="heroSignal">Calm and focused</strong>
+        </div>
+      </div>
+    </div>
+    <div class="mode-card">
+      <div class="gm-eyebrow">Today’s mode</div>
+      <select id="todayModeSelect" class="gm-select">
+        <option value="normal">Normal Day</option>
+        <option value="push">Push Day</option>
+        <option value="low-energy">Low Energy Day</option>
+        <option value="anxiety">Anxiety/DPDR Day</option>
+        <option value="recovery">Recovery Day</option>
+        <option value="match">Match Day</option>
+        <option value="weekend">Weekend Mode</option>
+      </select>
+      <p class="mode-note" id="todayModeNote">Balanced day. Pick a few useful things and move.</p>
+    </div>
+  </div>
 
   <div class="ticker-row">
     <div class="goal-ticker" id="goalTicker" aria-live="polite" aria-atomic="true">
@@ -647,10 +962,73 @@ body::after {
     </div>
   </div>
 
-  <div class="section">
-    <div class="section-title">To Do List</div>
+  <div class="focus-grid">
+    <div class="focus-card card" id="focusBodyCard">
+      <div class="focus-card-header">Body</div>
+      <strong>Walk, train, stretch or eat a proper meal</strong>
+      <p>Body first. Brain follows.</p>
+      <input id="focusBodyText" class="focus-input" type="text" placeholder="Body action" autocomplete="off">
+      <label class="checkbox-row"><input id="focusBodyDone" type="checkbox"> Mark done</label>
+    </div>
+    <div class="focus-card card" id="focusMoneyCard">
+      <div class="focus-card-header">Money</div>
+      <strong>One move that makes future Dani less stressed</strong>
+      <p>Small money moves still count.</p>
+      <input id="focusMoneyText" class="focus-input" type="text" placeholder="Money action" autocomplete="off">
+      <label class="checkbox-row"><input id="focusMoneyDone" type="checkbox"> Mark done</label>
+    </div>
+    <div class="focus-card card" id="focusSkillCard">
+      <div class="focus-card-header">Darts / Skill</div>
+      <strong>Practice, review, record or learn something</strong>
+      <p>Light grip. Attack the board.</p>
+      <input id="focusSkillText" class="focus-input" type="text" placeholder="Skill action" autocomplete="off">
+      <label class="checkbox-row"><input id="focusSkillDone" type="checkbox"> Mark done</label>
+    </div>
+  </div>
 
-    <!-- TODAY -->
+  <div class="support-grid">
+    <div class="recovery-card card">
+      <div class="card-title">Recovery Signal</div>
+      <div class="recovery-values">
+        <div class="recovery-pill"><span>Steps</span><strong><span id="recSteps">—</span></strong></div>
+        <div class="recovery-pill"><span>Sleep</span><strong><span id="recSleep">—</span></strong></div>
+        <div class="recovery-pill"><span>Battery</span><strong><span id="recBattery">—</span></strong></div>
+        <div class="recovery-pill"><span>Stress</span><strong><span id="recStress">—</span></strong></div>
+        <div class="recovery-pill"><span>HR</span><strong><span id="recHr">—</span></strong></div>
+        <div class="recovery-pill"><span>HRV</span><strong><span id="recHrv">—</span></strong></div>
+      </div>
+      <div class="field-row">
+        <input id="garminSteps" class="field-input" type="text" placeholder="Steps">
+        <input id="garminSleepScore" class="field-input" type="text" placeholder="Sleep score">
+        <input id="garminBodyBattery" class="field-input" type="text" placeholder="Body Battery">
+        <input id="garminStress" class="field-input" type="text" placeholder="Stress">
+        <input id="garminHr" class="field-input" type="text" placeholder="Resting HR">
+        <input id="garminHrv" class="field-input" type="text" placeholder="HRV">
+      </div>
+      <input id="garminActivity" class="field-input" type="text" placeholder="Activity today">
+      <p class="card-copy" id="garminSuggestion">Body data logged. Use it as information, not a life sentence.</p>
+    </div>
+    <div class="checkin-card card">
+      <div class="card-title">Quick check-in</div>
+      <div class="field-row">
+        <select id="checkinMood" class="field-select"><option value="low">Low</option><option value="okay">Okay</option><option value="good">Good</option><option value="sharp">Sharp</option></select>
+        <select id="checkinEnergy" class="field-select"><option value="wrecked">Wrecked</option><option value="fine">Fine</option><option value="strong">Strong</option></select>
+      </div>
+      <div class="field-row">
+        <select id="checkinAnxiety" class="field-select"><option value="calm">Calm</option><option value="noticeable">Noticeable</option><option value="high">High</option></select>
+        <select id="checkinDpdr" class="field-select"><option value="clear">Clear</option><option value="slightly-spaced">Slightly spaced</option><option value="very-spaced">Very spaced</option></select>
+      </div>
+      <div class="field-row">
+        <select id="checkinAlcohol" class="field-select"><option value="no">No</option><option value="yes">Yes</option></select>
+        <select id="checkinNicotine" class="field-select"><option value="low">Low</option><option value="normal">Normal</option><option value="high">High</option></select>
+      </div>
+      <p class="card-copy" id="checkinNote">Steady day. Do the next obvious thing.</p>
+    </div>
+  </div>
+
+  <div class="section card">
+    <div class="section-title">To Do</div>
+    <div class="section-subtitle">Must Do is not your whole life. It’s just today’s minimum.</div>
     <div class="gm-card" id="gmCardToday">
       <div class="gm-header">
         <div class="gm-header-left">
@@ -672,30 +1050,44 @@ body::after {
       <div id="emptyState" class="empty-state">No goals for today yet — add one below.</div>
       <button type="button" id="gmPushBtn" class="gm-push-btn" style="display:none;">Push remaining to tomorrow</button>
       <div class="goal-input-wrap gm-input-wrap">
+        <select id="goalCategorySelect" class="gm-select">
+          <option value="Must Do">Must Do</option>
+          <option value="Should Do">Should Do</option>
+          <option value="Could Do">Could Do</option>
+        </select>
         <input id="goalInput" class="gm-input" type="text" placeholder="Add a goal for today…" autocomplete="off">
         <button type="button" id="goalAddBtn"    class="gm-add">+ Add</button>
         <button type="button" id="goalPolishBtn" class="gm-polish">✨ Polish</button>
         <div class="gm-status" id="polishStatus"></div>
       </div>
     </div>
+  </div>
 
-    <!-- PLAN TOMORROW -->
-    <div class="gm-card gm-card-tomorrow" id="gmCardTomorrow">
-      <div class="gm-header">
-        <div class="gm-header-left">
-          <div class="gm-eyebrow" id="tomorrowLabel">Plan tomorrow —</div>
-          <div class="gm-tomorrow-sub">Write tonight, locked until 6 AM.</div>
-        </div>
-        <div class="gm-tomorrow-count" id="gmTomorrowCount">0 planned</div>
+  <div class="wins-card card">
+    <div class="card-title">Recent wins</div>
+    <ul id="recentWinsList"></ul>
+    <p id="recentWinsEmpty" class="wins-empty">No wins logged yet. Start tiny.</p>
+    <div class="field-row" style="margin-top: 16px; gap: 10px;">
+      <input id="winInput" class="field-input" type="text" placeholder="Log a quick win…" autocomplete="off">
+      <button type="button" id="winAddBtn" class="gm-add">+ Win</button>
+    </div>
+  </div>
+
+  <div class="gm-card gm-card-tomorrow card" id="gmCardTomorrow">
+    <div class="gm-header">
+      <div class="gm-header-left">
+        <div class="gm-eyebrow" id="tomorrowLabel">Plan tomorrow —</div>
+        <div class="gm-tomorrow-sub">Write tonight, locked until 6 AM.</div>
       </div>
-      <ul id="tomorrowList" class="goal-list gm-list"></ul>
-      <div id="tomorrowEmpty" class="empty-state">Nothing planned for tomorrow yet</div>
-      <div class="goal-input-wrap gm-input-wrap">
-        <input id="tomorrowInput" class="gm-input" type="text" placeholder="Add a goal for tomorrow…" autocomplete="off">
-        <button type="button" id="tomorrowAddBtn"    class="gm-add">+ Add</button>
-        <button type="button" id="tomorrowPolishBtn" class="gm-polish">✨ Polish</button>
-        <div class="gm-status" id="tomorrowStatus"></div>
-      </div>
+      <div class="gm-tomorrow-count" id="gmTomorrowCount">0 planned</div>
+    </div>
+    <ul id="tomorrowList" class="goal-list gm-list"></ul>
+    <div id="tomorrowEmpty" class="empty-state">Nothing planned for tomorrow yet</div>
+    <div class="goal-input-wrap gm-input-wrap">
+      <input id="tomorrowInput" class="gm-input" type="text" placeholder="Add a goal for tomorrow…" autocomplete="off">
+      <button type="button" id="tomorrowAddBtn"    class="gm-add">+ Add</button>
+      <button type="button" id="tomorrowPolishBtn" class="gm-polish">✨ Polish</button>
+      <div class="gm-status" id="tomorrowStatus"></div>
     </div>
   </div>
 
@@ -1245,10 +1637,169 @@ body::after {
     return arr[0].trim();
   }
 
-  function makeAddHandlers(input, addBtn, polishBtn, key, statusEl, reload) {
+  function loadMode() {
+    const stored = storeGet('mode:' + getActiveDateString());
+    return typeof stored === 'string' ? stored : 'normal';
+  }
+
+  function saveMode(mode) {
+    storeSet('mode:' + getActiveDateString(), mode);
+    renderMode();
+  }
+
+  const MODE_META = {
+    normal: { note: 'Balanced day. Pick a few useful things and move.', signal: 'Calm and focused' },
+    push: { note: 'Push day. Focus on the most meaningful actions.', signal: 'Attack mode' },
+    'low-energy': { note: 'Low-energy day. Choose small, useful moves.', signal: 'Keep it easy' },
+    anxiety: { note: 'Anxiety/DPDR day. Lean into ease and grounding.', signal: 'Soft signal' },
+    recovery: { note: 'Recovery day. Rest, recover and keep it simple.', signal: 'Recovery first' },
+    match: { note: 'Match day. Warm up, trust the process, calm mind.', signal: 'Match ready' },
+    weekend: { note: 'Weekend mode. Flow, rest and stay present.', signal: 'Weekend ease' }
+  };
+
+  function renderMode() {
+    const mode = loadMode();
+    document.getElementById('todayModeSelect').value = mode;
+    document.getElementById('todayModeNote').textContent = MODE_META[mode]?.note || MODE_META.normal.note;
+    document.getElementById('heroSignal').textContent = MODE_META[mode]?.signal || MODE_META.normal.signal;
+    document.getElementById('dashboardSubtitle').textContent = MODE_META[mode]?.note || MODE_META.normal.note;
+  }
+
+  function focusDefaults() {
+    return {
+      body: { text: 'Walk, train, stretch or eat a proper meal', done: false },
+      money: { text: 'One move that makes future Dani less stressed', done: false },
+      skill: { text: 'Practice, review, record or learn something', done: false }
+    };
+  }
+
+  function loadFocus() {
+    const stored = storeGet('focus:' + getActiveDateString()) || focusDefaults();
+    const focus = {
+      body: stored.body || focusDefaults().body,
+      money: stored.money || focusDefaults().money,
+      skill: stored.skill || focusDefaults().skill
+    };
+    document.getElementById('focusBodyText').value = focus.body.text;
+    document.getElementById('focusBodyDone').checked = !!focus.body.done;
+    document.getElementById('focusMoneyText').value = focus.money.text;
+    document.getElementById('focusMoneyDone').checked = !!focus.money.done;
+    document.getElementById('focusSkillText').value = focus.skill.text;
+    document.getElementById('focusSkillDone').checked = !!focus.skill.done;
+  }
+
+  function saveFocus() {
+    storeSet('focus:' + getActiveDateString(), {
+      body: { text: document.getElementById('focusBodyText').value.trim(), done: document.getElementById('focusBodyDone').checked },
+      money: { text: document.getElementById('focusMoneyText').value.trim(), done: document.getElementById('focusMoneyDone').checked },
+      skill: { text: document.getElementById('focusSkillText').value.trim(), done: document.getElementById('focusSkillDone').checked }
+    });
+  }
+
+  function loadCheckin() {
+    const stored = storeGet('checkin:' + getActiveDateString()) || { mood: 'okay', energy: 'fine', anxiety: 'calm', dpdr: 'clear', alcohol: 'no', nicotine: 'normal' };
+    document.getElementById('checkinMood').value = stored.mood;
+    document.getElementById('checkinEnergy').value = stored.energy;
+    document.getElementById('checkinAnxiety').value = stored.anxiety;
+    document.getElementById('checkinDpdr').value = stored.dpdr;
+    document.getElementById('checkinAlcohol').value = stored.alcohol;
+    document.getElementById('checkinNicotine').value = stored.nicotine;
+    renderCheckinNote();
+  }
+
+  function saveCheckin() {
+    const data = {
+      mood: document.getElementById('checkinMood').value,
+      energy: document.getElementById('checkinEnergy').value,
+      anxiety: document.getElementById('checkinAnxiety').value,
+      dpdr: document.getElementById('checkinDpdr').value,
+      alcohol: document.getElementById('checkinAlcohol').value,
+      nicotine: document.getElementById('checkinNicotine').value
+    };
+    storeSet('checkin:' + getActiveDateString(), data);
+    renderCheckinNote();
+  }
+
+  function renderCheckinNote() {
+    const stored = storeGet('checkin:' + getActiveDateString()) || {};
+    if (stored.mood === 'low') return document.getElementById('checkinNote').textContent = 'Take the easier, useful path today.';
+    if (stored.energy === 'strong') return document.getElementById('checkinNote').textContent = 'You have energy for the right plays.';
+    if (stored.anxiety === 'high') return document.getElementById('checkinNote').textContent = 'Use small actions to ground the mind.';
+    document.getElementById('checkinNote').textContent = 'Steady day. Do the next obvious thing.';
+  }
+
+  function loadGarmin() {
+    const stored = storeGet('garmin:' + getActiveDateString()) || { steps: '', sleepScore: '', bodyBattery: '', stress: '', hr: '', hrv: '', activity: '' };
+    document.getElementById('garminSteps').value = stored.steps;
+    document.getElementById('garminSleepScore').value = stored.sleepScore;
+    document.getElementById('garminBodyBattery').value = stored.bodyBattery;
+    document.getElementById('garminStress').value = stored.stress;
+    document.getElementById('garminHr').value = stored.hr;
+    document.getElementById('garminHrv').value = stored.hrv;
+    document.getElementById('garminActivity').value = stored.activity;
+  }
+
+  function saveGarmin() {
+    storeSet('garmin:' + getActiveDateString(), {
+      steps: document.getElementById('garminSteps').value.trim(),
+      sleepScore: document.getElementById('garminSleepScore').value.trim(),
+      bodyBattery: document.getElementById('garminBodyBattery').value.trim(),
+      stress: document.getElementById('garminStress').value.trim(),
+      hr: document.getElementById('garminHr').value.trim(),
+      hrv: document.getElementById('garminHrv').value.trim(),
+      activity: document.getElementById('garminActivity').value.trim()
+    });
+  }
+
+  function loadWins() {
+    const wins = storeGet('wins:' + getActiveDateString()) || [];
+    const list = document.getElementById('recentWinsList');
+    const empty = document.getElementById('recentWinsEmpty');
+    list.innerHTML = '';
+    if (!Array.isArray(wins) || wins.length === 0) {
+      empty.style.display = 'block';
+      return;
+    }
+    empty.style.display = 'none';
+    wins.forEach(win => {
+      const item = document.createElement('li');
+      item.className = 'win-item';
+      item.textContent = win;
+      list.appendChild(item);
+    });
+  }
+
+  function addWin(text) {
+    const trimmed = text.trim();
+    if (!trimmed) return;
+    const wins = storeGet('wins:' + getActiveDateString()) || [];
+    wins.unshift(trimmed);
+    if (wins.length > 8) wins.length = 8;
+    storeSet('wins:' + getActiveDateString(), wins);
+    document.getElementById('winInput').value = '';
+    loadWins();
+  }
+
+  function renderHeader() {
+    const now = new Date();
+    const hour = now.getHours();
+    let label = 'Evening';
+    if (hour < 4) label = 'Late night';
+    else if (hour < 11) label = 'Morning';
+    else if (hour < 15) label = 'Afternoon';
+    else if (hour < 19) label = 'Evening';
+    document.getElementById('dashboardTitle').textContent = label + ', Dani';
+    document.getElementById('heroDate').textContent = formatDate(getActiveDateString());
+    const streakCount = loadStreak().count;
+    document.getElementById('heroStreak').textContent = streakCount + ' day' + (streakCount === 1 ? '' : 's');
+    renderMode();
+  }
+
+  function makeAddHandlers(input, addBtn, polishBtn, key, statusEl, reload, defaultCategory, categoryFieldId) {
     function plainAdd(text) {
+      const category = categoryFieldId ? document.getElementById(categoryFieldId).value : defaultCategory || 'Should Do';
       const list = getGoals(key);
-      list.push({ text, done: false });
+      list.push({ text, done: false, queued: false, category });
       setGoals(key, list);
       input.value = '';
       reload();
@@ -1282,13 +1833,23 @@ body::after {
     });
   }
 
+  document.getElementById('todayModeSelect').addEventListener('change', (event) => saveMode(event.target.value));
+  ['focusBodyText', 'focusMoneyText', 'focusSkillText'].forEach(id => document.getElementById(id).addEventListener('change', saveFocus));
+  ['focusBodyDone', 'focusMoneyDone', 'focusSkillDone'].forEach(id => document.getElementById(id).addEventListener('change', saveFocus));
+  ['checkinMood', 'checkinEnergy', 'checkinAnxiety', 'checkinDpdr', 'checkinAlcohol', 'checkinNicotine'].forEach(id => document.getElementById(id).addEventListener('change', saveCheckin));
+  ['garminSteps', 'garminSleepScore', 'garminBodyBattery', 'garminStress', 'garminHr', 'garminHrv', 'garminActivity'].forEach(id => document.getElementById(id).addEventListener('input', saveGarmin));
+  document.getElementById('winAddBtn').addEventListener('click', () => addWin(document.getElementById('winInput').value));
+  document.getElementById('winInput').addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); addWin(e.target.value); } });
+
   makeAddHandlers(
     document.getElementById('goalInput'),
     document.getElementById('goalAddBtn'),
     document.getElementById('goalPolishBtn'),
     todayKey(),
     document.getElementById('polishStatus'),
-    loadToday
+    loadToday,
+    'Must Do',
+    'goalCategorySelect'
   );
   makeAddHandlers(
     document.getElementById('tomorrowInput'),
@@ -1296,7 +1857,8 @@ body::after {
     document.getElementById('tomorrowPolishBtn'),
     tomorrowKey(),
     document.getElementById('tomorrowStatus'),
-    loadTomorrow
+    loadTomorrow,
+    'Should Do'
   );
 
   // ---------- Boot ----------
@@ -1304,14 +1866,20 @@ body::after {
   processStreak();
   loadToday();
   loadTomorrow();
+  loadMode();
   renderStreak();
+  renderHeader();
+  loadFocus();
+  loadCheckin();
+  loadGarmin();
+  loadWins();
   updateDayRing();
   setInterval(updateDayRing, 60 * 1000);
   startTicker();
 
   // Re-render when storage changes from another tab (or our bridged parent).
   window.addEventListener('storage', () => {
-    loadToday(); loadTomorrow(); renderStreak();
+    loadToday(); loadTomorrow(); renderStreak(); renderHeader(); loadFocus(); loadCheckin(); loadGarmin(); loadWins();
   });
 })();
 </script>
